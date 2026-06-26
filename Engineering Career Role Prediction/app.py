@@ -24,13 +24,11 @@ def preprocess_input(data):
     df = pd.DataFrame([data])
     categorical_columns = ['can work long time before system?', 'self-learning capability?', 'talent tests taken?',
                            'higher education?']
-    label_encoders = {}
+    yes_no_mapping = {'Yes': 1, 'No': 0}
 
     for col in categorical_columns:
         if col in df.columns:
-            le = LabelEncoder()
-            df[col] = le.fit_transform(df[col])
-            label_encoders[col] = le
+            df[col] = df[col].map(yes_no_mapping)
 
     return df
 

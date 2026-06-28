@@ -283,6 +283,10 @@ The process of selecting relevant features for use in a model to increase accura
 <td align="center">52.</td>
 <td align="center"><a href="https://github.com/Niketkumardheeryan/ML-CaPsule/tree/main/Eye_Gaze_Tracking_Attention_Estimation">Eye Gaze Tracking & Attention Estimation</a></td>
 </tr>
+<tr>
+<td align="center">53.</td>
+<td align="center"><a href="https://github.com/Niketkumardheeryan/ML-CaPsule/tree/main/Portuguese_Bank_Marketing">Portuguese Bank Marketing</a></td>
+</tr>
 </table>
 
 & many more.......
@@ -320,6 +324,9 @@ Here are some of the exciting projects featured in this repository:
 
 9. **[Eye Gaze Tracking & Attention Estimation](Eye_Gaze_Tracking_Attention_Estimation/README.md)**  
    A real-time attention tracking system using the MediaPipe Face Mesh Tasks API, robust iris vector projections, and 3D Perspective-n-Point head pose estimation with a glowing telemetry HUD console.
+
+10. **[Portuguese Bank Marketing](./Portuguese_Bank_Marketing)**  
+    A **Supervised Machine Learning – Binary Classification** project to predict if a client will subscribe to a term deposit based on demographic and campaign features.
 
 ## 📜 Summary
 

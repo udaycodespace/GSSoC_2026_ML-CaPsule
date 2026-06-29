@@ -60,7 +60,7 @@ if r=='Bitcoin Price':
     
     ypred=Ls.predict([[High,Low,Open,Close,volume]])
     if(st.button("Predict")):
-        st.success(f"Your Predicted Salary Is {abs(ypred)}")
+        st.success(f"Your Predicted Bitcoin Marketcap Is ${abs(ypred[0]):,.2f}")
         
 
     

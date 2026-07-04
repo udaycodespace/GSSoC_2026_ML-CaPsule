@@ -36,16 +36,11 @@ Here is the output of Gradio User Interface
 
 <img width="1142" alt="Screenshot 2024-06-03 at 8 04 33 AM" src="https://github.com/AKing-283/ML-CaPsule/assets/154039781/989a1c10-bd53-4eb0-97a4-ac80da601cf6">
 
+# Dataset
+The dataset used in this project is taken from Kaggle.
+Download it from here: https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
 
-## Model Evaluation
-
-The Fake News Detection model is evaluated using:
-
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- Classification Report
-- Confusion Matrix Visualization
-
-These metrics help analyze the model's performance in detecting fake and real news.
+# Model Performance
+- Algorithm used: Logistic Regression
+- Accuracy achieved: ~98% on test data
+- Evaluation metric: Accuracy Score

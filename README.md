@@ -46,7 +46,7 @@ Welcome to **ML-Capsule**!!! This repository is a comprehensive collection of ma
 - [✨ Contributors](#some-awesome-contributors-)
 - [❤️ Stargazers](#stargazers-%EF%B8%8F)
 - [❤️ Forkers](#forkers-%EF%B8%8F)
-- [🗂️ Project Directory](#️%EF%B8%8F-project-directory)
+- [🗂️ Project Directory](#%EF%B8%8F-project-directory)
 
 ## 📈 Why Machine Learning?
 

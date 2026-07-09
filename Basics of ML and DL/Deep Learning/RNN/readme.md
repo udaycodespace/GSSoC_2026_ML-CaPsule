@@ -12,6 +12,27 @@ The dataset is split into:
 
 Each review is represented as a sequence of integer-encoded words.
 
+## Dataset
+
+The notebook uses the **IMDb Movie Reviews** dataset.
+
+### Download using gdown
+
+```bash
+pip install gdown
+gdown --id 1LL4rJU6xtgn1fUHTO7TmdrXNhz0A19CG
+```
+
+### Direct Google Drive Link
+
+https://drive.google.com/file/d/1LL4rJU6xtgn1fUHTO7TmdrXNhz0A19CG/view?usp=sharing
+
+After downloading, place the file as:
+
+`IMDB Dataset.csv`
+
+in the same directory as the notebook.
+
 ## Topics Covered
 - Introduction to Recurrent Neural Networks (RNNs)
 - Loading the IMDb dataset

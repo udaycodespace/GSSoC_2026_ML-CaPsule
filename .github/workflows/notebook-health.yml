@@ -13,6 +13,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -26,12 +28,21 @@ jobs:
       
       - name: Get changed files
         id: changed-files
+        shell: bash
         run: |
+          set -euo pipefail
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            git fetch origin ${{ github.base_ref }} --depth=1
-            git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
+            git fetch origin "${{ github.base_ref }}" --depth=1 || true
+            if git merge-base --is-ancestor "origin/${{ github.base_ref }}" HEAD 2>/dev/null; then
+              git diff --name-only "origin/${{ github.base_ref }}"...HEAD > changed_files.txt || true
+            else
+              git diff --name-only "origin/${{ github.base_ref }}" HEAD > changed_files.txt || true
+            fi
           else
             git diff --name-only HEAD^ HEAD > changed_files.txt || true
+          fi
+          if [ ! -s changed_files.txt ]; then
+            echo "No changed files detected; falling back to the full notebook scan." > changed_files.txt
           fi
           echo "changed_files<<EOF" >> "$GITHUB_OUTPUT"
           cat changed_files.txt >> "$GITHUB_OUTPUT"

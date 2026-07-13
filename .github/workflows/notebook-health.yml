@@ -53,4 +53,17 @@ jobs:
         env:
           CHANGED_FILES: ${{ steps.changed-files.outputs.changed_files }}
         run: python .github/scripts/notebook_health_check.py
+
+      - name: Add Comment to PR
+        # Only run this step if it's a Pull Request (doesn't apply to push/workflow_dispatch)
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -f "health_check_report.md" ]; then
+            gh pr comment $PR_NUMBER --body-file health_check_report.md
+          else
+            echo "No report file found to comment."
+          fi
         

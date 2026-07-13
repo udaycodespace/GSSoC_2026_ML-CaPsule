@@ -47,7 +47,10 @@ def normalize_changed_files(changed_files):
 
 
 def find_notebooks(root_dir=".", changed_files=None):
-    """Find notebooks in specific directories only, or limit the scan to changed notebook files."""
+    if changed_files is None:
+        changed_files = []
+
+    """Find notebooks in changed files or in common locations within the repository."""
     notebooks = []
     root_path = Path(root_dir).resolve()
 
@@ -68,26 +71,6 @@ def find_notebooks(root_dir=".", changed_files=None):
             return sorted(dict.fromkeys(notebooks))
         print("No changed notebook files matched the health check criteria.")
         return []
-
-    # Only scan these folders (common notebook locations)
-    folders_to_scan = ["notebooks", "examples", "tutorials", "docs", "guides"]
-
-    for folder in folders_to_scan:
-        folder_path = root_path / folder
-        if folder_path.exists():
-            for path in folder_path.rglob("*.ipynb"):
-                if ".ipynb_checkpoints" not in str(path):
-                    notebooks.append(path)
-
-    # If no notebooks found in specific folders, scan current directory only (not subdirectories)
-    if not notebooks:
-        for path in root_path.glob("*.ipynb"):
-            notebooks.append(path)
-
-    # Also check for notebooks in root level (if any)
-    for path in root_path.glob("*.ipynb"):
-        if path not in notebooks:
-            notebooks.append(path)
 
     return sorted(dict.fromkeys(notebooks))
 
@@ -249,6 +232,16 @@ def run_health_check(root_dir=".", changed_files=None):
             print(f"  - {item['path']}: {item['reason']}")
     else:
         print(f"\n✅ All {len(results)} notebooks passed!")
+
+    with open("result.md", "w", encoding="utf-8") as f:
+        f.write(f"# Notebook Health Check Results\n\n")
+        f.write(f"Total notebooks checked: {len(results)}\n\n")
+        f.write(f"## Failed Notebooks ({len(failed)})\n")
+        for f in failed:
+            f.write(f"- **{f['path']}**: {f['error']}\n")
+        f.write(f"\n## Skipped Notebooks ({len(skipped)})\n")
+        for s in skipped:
+            f.write(f"- **{s['path']}**: {s['reason']}\n")
 
     return results
 

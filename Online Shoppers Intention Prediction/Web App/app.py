@@ -1,4 +1,6 @@
 from pathlib import Path
+import os
+import secrets
 import pickle
 import numpy as np
 import pandas as pd
@@ -18,7 +20,14 @@ ENCODERS_FILE = MODEL_DIR / 'label_encoders.pkl'
 TARGET_ENCODER_FILE = MODEL_DIR / 'target_encoder.pkl'
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.config['SECRET_KEY'] = 'replace-this-with-a-secure-value'
+
+app.config.update(
+    SECRET_KEY=os.environ.get("SECRET_KEY", secrets.token_hex(32)),
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    PREFERRED_URL_SCHEME="https",
+)
 
 model = load_model(str(MODEL_FILE))
 scaler = pickle.load(open(SCALER_FILE, 'rb'))

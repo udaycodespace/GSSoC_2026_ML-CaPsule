@@ -1,71 +1,78 @@
 # Online Shoppers Intention Prediction
 
 ## Overview
-This project predicts whether an online shopper will make a purchase based on session-level browsing behavior. It combines model training, evaluation, and a Flask web app for real-time predictions and dashboard-style insights.
+This project predicts whether an online shopping session will end in a purchase. It combines deep learning models with a Flask web application so the trained model can be used through a browser for prediction and simple analytics.
 
-## Problem Statement
-E-commerce sites collect a lot of browsing data, but not every visit turns into a purchase. The goal of this project is to use session behavior to predict purchase intent and support better business decisions.
+## Problem statement
+Online stores receive a large number of visits, but only some sessions convert into purchases. The goal of this project is to predict purchase intent from session behavior so businesses can better understand user activity and improve targeting, remarketing, and conversion strategies.
 
 ## Dataset
-- **Dataset Name:** Online Shoppers Purchasing Intention Dataset
-- **Source:** Kaggle
-- **Dataset Link:** [Online Shoppers Intention](https://www.kaggle.com/datasets/henrysue/online-shoppers-intention)
-- **Records:** 12,330 sessions
-- **Features:** 18 columns including the target variable
-- **Target Variable:** `Revenue`
-  - `True` or `Yes` means a purchase happened.
-  - `False` or `No` means no purchase happened.
+This project uses the Online Shoppers Purchasing Intention Dataset.
 
-The dataset contains session-level e-commerce behavior such as page visits, time spent on pages, bounce rate, exit rate, page value, traffic source, visitor type, and weekend activity. The UCI version of the dataset is described as 10 numerical and 8 categorical attributes, with `Revenue` used as the class label. [web:25]
+- Dataset name: Online Shoppers Purchasing Intention Dataset
+- Source: Kaggle
+- Dataset link: [Online Shoppers Intention](https://www.kaggle.com/datasets/henrysue/online-shoppers-intention)
+- Records: 12,330 sessions
+- Features: 18 columns including the target variable
+- Target variable: `Revenue`
 
-## Why This Dataset Works Well
-This dataset is a good fit for purchase prediction because it contains direct behavioral signals linked to conversion, such as product page activity, page value, and exit behavior. The target is binary, so it works naturally for classification models.
+The dataset contains session-level e-commerce behavior such as page visits, time spent on pages, bounce rate, exit rate, page value, traffic source, visitor type, browser, operating system, and weekend activity.
 
-## Data Preprocessing
-The project uses the following preprocessing steps:
-- Duplicate sessions are removed.
-- Missing values are handled with median imputation for numeric fields and mode imputation for categorical fields.
-- Categorical values are encoded with label encoders.
-- Numeric features are scaled with `StandardScaler`.
-- Train/test split is stratified so the target distribution stays balanced across splits.
+### Target meaning
+- `True` means the session resulted in a purchase.
+- `False` means the user left without making a purchase.
 
-## Project Workflow
+## Why this dataset fits the problem
+This dataset works well for purchase prediction because it contains direct behavior signals that are closely related to buying intent. Features such as product-related page activity, exit rate, bounce rate, and page value make it a good fit for binary classification.
+
+## Data preprocessing
+The project follows these preprocessing steps:
+
+- Remove duplicate records where needed.
+- Handle missing values for numeric and categorical data.
+- Encode categorical features using label encoders.
+- Scale numeric features using `StandardScaler`.
+- Split the dataset into training and testing sets with stratification.
+
+## Project workflow
 1. Load the dataset from the `Dataset` folder.
-2. Clean and validate the data.
+2. Clean and preprocess the data.
 3. Encode categorical columns.
-4. Scale numeric features.
+4. Scale the features.
 5. Train multiple deep learning models.
-6. Evaluate model performance.
-7. Save trained models and preprocessing files.
-8. Build a Flask app for inference and dashboard views.
-9. Add security settings for safer deployment.
+6. Evaluate each model using classification metrics.
+7. Save trained models and preprocessing objects.
+8. Build a Flask web app for prediction and dashboard views.
+9. Add production-oriented security settings to the app.
 
-## Models Implemented
+## Models implemented
+
 ### MLP
-Used as a baseline model for tabular classification.
+Used as a baseline neural network model for tabular classification.
 
 ### Deep Neural Network
-A deeper feedforward model used as the main production model in the web app.
+A deeper feedforward model that gave the best overall performance and is used in the web application for inference.
 
 ### LSTM
-Used to learn sequential-style patterns from session data.
+Used to test sequence-style learning on the prepared session data.
 
 ### GRU
 Used as a lighter recurrent alternative to LSTM.
 
-## Model Assets
-This folder contains the notebook, trained models, and preprocessing files needed for training and inference.
+## Model assets
+The `Model` folder contains everything required for training review and inference.
 
-### Files Included
+### Files included
 - Jupyter Notebook implementation
 - Trained deep learning models
 - Feature scaler
 - Label encoders
 - Target encoder
 
-These files are kept because the Flask app needs them for real-time inference and dashboard results.
+These files are kept because the Flask application depends on them for preprocessing and prediction.
 
-## Performance Summary
+## Performance summary
+
 | Model | Accuracy | Precision | Recall | F1 Score | ROC-AUC |
 |-------|----------|-----------|--------|----------|---------|
 | MLP | 0.8895 | 0.7248 | 0.5876 | 0.6481 | 0.8672 |
@@ -73,78 +80,81 @@ These files are kept because the Flask app needs them for real-time inference an
 | LSTM | 0.8931 | 0.7412 | 0.6124 | 0.6708 | 0.8823 |
 | GRU | 0.8947 | 0.7521 | 0.6287 | 0.6849 | 0.8891 |
 
-The Deep Neural Network performs best overall, especially on F1 score and ROC-AUC.
+The Deep Neural Network performs best overall, especially on F1 score and ROC-AUC, so it is used as the main model in the web app.
 
 ## Visualizations
-All plots are combined into one PDF report inside the `Images` folder. Each figure is explained below.
+The visual outputs are consolidated into a single file:
 
-### 1. Training History
-Shows how the model learned across epochs. It helps check whether training converged properly and whether overfitting appeared.
+- `Images/model_visualizations.pdf`
 
-### 2. Model Comparison
-Compares all trained models across metrics like accuracy, precision, recall, F1 score, and ROC-AUC.
+This PDF includes:
+1. Training history
+2. Model comparison
+3. Confusion matrices
+4. ROC curves
+5. Feature importance
+6. Data distribution
 
-### 3. Confusion Matrices
-Shows correct and incorrect predictions for purchase and non-purchase sessions.
+### What the visualizations show
+- Training history shows how the models learned over epochs.
+- Model comparison shows how all four models perform across metrics.
+- Confusion matrices show correct and incorrect predictions.
+- ROC curves show class separation performance.
+- Feature importance highlights the most influential input signals.
+- Data distribution gives a quick view of feature spread and target balance.
 
-### 4. ROC Curves
-Shows how well each model separates the two classes.
+### Visualization Details
 
-### 5. Feature Importance
-Highlights the most useful behavioral signals for prediction.
+#### 1. Training History
+Shows the training and validation accuracy/loss across epochs. This helps evaluate how well the models learned during training and whether they experienced overfitting or underfitting.
 
-### 6. Data Distribution
-Shows the spread of the dataset features and target class behavior.
+#### 2. Model Comparison
+Compares the performance of all implemented models (MLP, Deep Neural Network, LSTM, and GRU) using metrics such as Accuracy, Precision, Recall, F1 Score, and ROC-AUC to identify the best-performing model.
 
-## Web Application
+#### 3. Confusion Matrices
+Illustrates the number of correct and incorrect predictions for each model, helping evaluate classification performance through true positives, true negatives, false positives, and false negatives.
+
+#### 4. ROC Curves
+Displays the Receiver Operating Characteristic (ROC) curves and ROC-AUC scores for each model, showing how effectively they distinguish between purchase and non-purchase sessions.
+
+#### 5. Feature Importance
+Highlights the most influential features contributing to purchase intent prediction, providing insight into which browsing behaviors have the greatest impact on model decisions.
+
+#### 6. Data Distribution
+Visualizes the distribution of dataset features and the balance between purchase and non-purchase classes, helping understand the data before preprocessing and model training.
+
+## Web application
 The project includes a Flask web application for prediction and analysis.
 
 ### Goal
-A deployable Flask app for real-time purchase intent prediction using the deep feedforward neural network.
+The app allows users to enter session details and get a real-time purchase intent prediction from the trained Deep Neural Network.
 
-### Model Used in the App
-The web app uses the Deep Neural Network model for production inference. The other models were trained for comparison.
+### Main pages
 
-### Pages
-#### Home Page
-Introduces the project and routes users to the prediction and dashboard sections.
+#### Home page
+Introduces the project and links users to the prediction and dashboard pages.
 
-#### Prediction Page
-Accepts session values and returns:
+#### Prediction page
+Accepts session input values and returns:
 - Purchase intent prediction
 - Confidence score
 - Short explanation
-- Key factors behind the result
+- Important indicators behind the prediction
 
-#### Dashboard Page
-Shows:
+#### Dashboard page
+Displays:
 - Dataset statistics
-- Purchase vs non-purchase ratio
+- Purchase and non-purchase session ratio
 - Top correlated features
-- Model comparison metrics
+- Model comparison results
 
-### Web App Demo
-A demo video is included in the `Web App` folder and shows:
-- Landing page
-- Prediction workflow
-- Real-time inference
-- Analytics dashboard
-- Model comparison
+## Demo and screenshot
+The repository includes:
+- `Web App/web_app.mp4` for the demo video
+- `Images/webapp_screenshot.png` for the web app screenshot
 
-## Security Improvements
-The Flask app includes production-oriented security fixes.
+## Repository structure
 
-### Applied Fixes
-- `PREFERRED_URL_SCHEME = "https"`
-- `SESSION_COOKIE_SECURE = True`
-- `SESSION_COOKIE_HTTPONLY = True`
-- `SESSION_COOKIE_SAMESITE = "Lax"`
-- Flask-Talisman for HTTPS enforcement and security headers
-- Content Security Policy for safer script and style loading
-
-These settings help address the GitHub Advanced Security warnings and make the app safer for deployment.
-
-## Repository Structure
 ```text
 Online Shoppers Intention Prediction/
 ├── Dataset/
@@ -171,29 +181,71 @@ Online Shoppers Intention Prediction/
 ```
 
 ## Installation
+
+Clone the repository and install the required dependencies before running the project.
+
 ```bash
 git clone <repository-url>
 cd "Online Shoppers Intention Prediction"
-pip install -r requirements.txt
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
 ```
 
-## Run the Web App
+If you encounter an error such as:
+
+```text
+ModuleNotFoundError: No module named 'numpy'
+```
+
+install the project dependencies after activating your virtual environment:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+Using `python3 -m pip` helps make sure packages are installed into the same Python environment that runs the application.
+
+## Run the web app
+
+After installing the dependencies, start the Flask application:
+
 ```bash
 cd "Web App"
-python app.py
+python3 app.py
 ```
 
-Then open the local server in your browser.
+Then open the local URL shown in the terminal, usually:
 
-## Future Improvements
-- Handle class imbalance more explicitly.
-- Add SHAP-based explainability.
-- Improve dashboard interactivity.
-- Add API endpoints for integration.
-- Deploy the app to a production host.
+```text
+http://127.0.0.1:5000/
+```
+
+## Security improvements
+The Flask application was updated to address the warnings raised during review and to make the app safer for deployment.
+
+### Applied fixes
+- `PREFERRED_URL_SCHEME = "https"`
+- `SESSION_COOKIE_SECURE = True`
+- `SESSION_COOKIE_HTTPONLY = True`
+- `SESSION_COOKIE_SAMESITE = "Lax"`
+- Added `Flask-Talisman` for HTTPS enforcement and security headers
+- Added a Content Security Policy for safer script and style loading
+
+These changes improve secure cookie handling, browser-side protections, and deployment readiness.
+
+> **Local Development:** Flask-Talisman enforces HTTPS for production deployments. If you are running the application locally with Flask's built-in development server, you may temporarily disable the `Talisman(...)` configuration in `Web App/app.py`. Re-enable it before deploying to production so HTTPS enforcement, secure cookies, and security headers stay enabled. [web:9]
+
+## Future improvements
+- Handle class imbalance more explicitly
+- Add SHAP-based explainability
+- Improve dashboard interactivity
+- Add API endpoints for integration
+- Deploy the app to a production platform
 
 ## Author
-**Somapuram Uday**
+Somapuram Uday
 
 - GitHub: [udaycodespace](https://github.com/udaycodespace)
 - LinkedIn: [Somapuram Uday](https://www.linkedin.com/in/somapuram-uday)
